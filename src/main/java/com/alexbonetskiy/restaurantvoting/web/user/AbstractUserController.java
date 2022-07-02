@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
+import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkModification;
+
 
 @Slf4j
 public abstract class AbstractUserController {
@@ -23,7 +25,7 @@ public abstract class AbstractUserController {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        repository.deleteExisted(id);
+        checkModification(repository.delete(id), id);
     }
 
     protected User prepareAndSave(User user) {

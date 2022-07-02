@@ -19,7 +19,7 @@ import javax.persistence.*;
 public abstract class AbstractBaseEntity implements Persistable<Integer>, HasId {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     // doesn't work for hibernate lazy proxy
