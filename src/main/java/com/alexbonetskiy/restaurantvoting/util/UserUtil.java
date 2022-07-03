@@ -3,6 +3,8 @@ package com.alexbonetskiy.restaurantvoting.util;
 import com.alexbonetskiy.restaurantvoting.dto.UserTo;
 import com.alexbonetskiy.restaurantvoting.model.Role;
 import com.alexbonetskiy.restaurantvoting.model.User;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
 import static com.alexbonetskiy.restaurantvoting.config.SecurityConfiguration.PASSWORD_ENCODER;

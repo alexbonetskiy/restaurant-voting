@@ -2,6 +2,7 @@ package com.alexbonetskiy.restaurantvoting.web.user;
 
 
 import com.alexbonetskiy.restaurantvoting.MatcherFactory;
+import com.alexbonetskiy.restaurantvoting.dto.UserTo;
 import com.alexbonetskiy.restaurantvoting.model.Role;
 import com.alexbonetskiy.restaurantvoting.model.User;
 import com.alexbonetskiy.restaurantvoting.util.JsonUtil;
@@ -10,7 +11,8 @@ import java.util.Collections;
 import java.util.Date;
 
 public class UserTestData {
-    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class, "registered", "password");
+    public static final MatcherFactory.Matcher<User> USER_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(User.class,  "password");
+    public static final MatcherFactory.Matcher<UserTo> USER_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserTo.class,  "password");
 
     public static final int USER_ID = 1;
     public static final int ADMIN_ID = 2;

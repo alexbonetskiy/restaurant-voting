@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.experimental.UtilityClass;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 @UtilityClass
 public class JsonUtil {
+
 
     private static ObjectMapper mapper;
 
@@ -39,7 +42,7 @@ public class JsonUtil {
 
     public static <T> String writeValue(T obj) {
         try {
-            return mapper.writeValueAsString(obj);
+              return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
         }

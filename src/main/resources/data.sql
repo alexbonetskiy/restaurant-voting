@@ -12,7 +12,7 @@ VALUES ('MacDonalds'),
        ('KFC'),
        ('Burger King');
 
-INSERT INTO DISH (NAME, DATE_TIME, PRICE, RESTAURANT_ID)
+INSERT INTO DISH (NAME, DISH_DATE, PRICE, RESTAURANT_ID)
 VALUES ('Big Mac', now(), 3, 1),
        ('Twister', now(), 4, 2),
        ('Wopper', now(), 5, 3 );

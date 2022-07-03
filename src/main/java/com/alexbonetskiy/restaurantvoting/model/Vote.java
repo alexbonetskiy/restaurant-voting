@@ -26,7 +26,7 @@ public class Vote extends AbstractBaseEntity implements  Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     @ToString.Exclude
-    User user;
+    private User user;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +34,7 @@ public class Vote extends AbstractBaseEntity implements  Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     @ToString.Exclude
-    Restaurant restaurant;
+    private Restaurant restaurant;
 
 
 

@@ -4,6 +4,7 @@ package com.alexbonetskiy.restaurantvoting.web.user;
 import com.alexbonetskiy.restaurantvoting.model.User;
 import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import com.alexbonetskiy.restaurantvoting.util.UserUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,10 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkModifi
 
 
 @Slf4j
+@AllArgsConstructor
 public abstract class AbstractUserController {
 
-    @Autowired
+
     protected UserRepository repository;
 
 

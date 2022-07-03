@@ -2,7 +2,9 @@ package com.alexbonetskiy.restaurantvoting.web.user;
 
 
 import com.alexbonetskiy.restaurantvoting.model.User;
+import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,11 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 public class AdminRestUserController extends AbstractUserController{
 
      public static final String REST_URL = "/api/admin/users";
+
+     @Autowired
+     public AdminRestUserController(UserRepository repository) {
+          super(repository);
+     }
 
      @Override
      @GetMapping("/{id}")

@@ -23,15 +23,15 @@ public class Restaurant extends AbstractNamedEntity implements  Serializable {
 
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
 
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
-    @OrderBy("dateTime DESC")
+    @OrderBy("date DESC")
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @ToString.Exclude
-    private List<Dish> menu = new ArrayList<>();
+    protected List<Dish> dishes = new ArrayList<>();
 
 
 }

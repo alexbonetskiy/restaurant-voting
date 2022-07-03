@@ -3,9 +3,11 @@ package com.alexbonetskiy.restaurantvoting.web.user;
 
 import com.alexbonetskiy.restaurantvoting.dto.UserTo;
 import com.alexbonetskiy.restaurantvoting.model.User;
+import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import com.alexbonetskiy.restaurantvoting.util.UserUtil;
 import com.alexbonetskiy.restaurantvoting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,14 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = ProfileRestController.REST_URL)
 @Slf4j
-public class ProfileRestController extends AbstractUserController{
+public class ProfileRestController extends AbstractUserController {
 
-public static final String REST_URL = "/api/profile";
+    public static final String REST_URL = "/api/profile";
+
+    @Autowired
+    public ProfileRestController(UserRepository repository) {
+        super(repository);
+    }
 
     @GetMapping
     public User get(@AuthenticationPrincipal AuthUser authUser) {

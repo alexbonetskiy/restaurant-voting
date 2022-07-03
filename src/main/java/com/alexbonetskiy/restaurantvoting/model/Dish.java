@@ -5,15 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "date_time", "restaurant_id"}, name = "dish_unique_name_datetime_restaurant_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "dish_date", "restaurant_id"}, name = "dish_unique_name_dish_date_restaurant_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,10 +28,10 @@ public class Dish extends AbstractNamedEntity implements Serializable {
     @Column(name = "price", nullable = false)
     @NotNull
     @Positive
-    private long price;
+    protected long price;
 
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "dish_date", nullable = false)
     @NotNull
-    private LocalDateTime dateTime;
+    protected LocalDate date;
 
 }

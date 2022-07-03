@@ -1,21 +1,32 @@
 package com.alexbonetskiy.restaurantvoting.config;
 
 import com.alexbonetskiy.restaurantvoting.util.JsonUtil;
-import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Configuration
 @Slf4j
-public class AppConfig {
+@EnableWebMvc
+public class AppConfig implements WebMvcConfigurer {
+
 
     @Profile("!test")
     @Bean(initMethod = "start", destroyMethod = "stop")
@@ -24,15 +35,36 @@ public class AppConfig {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 
-    //    https://stackoverflow.com/a/46947975/548473
-    @Bean
-    Module module() {
-        return new Hibernate5Module();
+
+   // https://stackoverflow.com/a/21760361
+   public MappingJackson2HttpMessageConverter jacksonMessageConverter(){
+       MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+
+       ObjectMapper mapper = new ObjectMapper();
+       //Registering Hibernate5Module to support lazy objects
+       mapper.registerModule(new Hibernate5Module());
+       mapper.registerModule(new JavaTimeModule());
+       mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+       mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+       mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+       mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+       messageConverter.setObjectMapper(mapper);
+       return messageConverter;
+
+   }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        //Here we add our custom-configured HttpMessageConverter
+        converters.add(jacksonMessageConverter());
+        WebMvcConfigurer.super.configureMessageConverters(converters);
     }
+
 
     @Autowired
-    private void setMapper(ObjectMapper objectMapper) {
+    public void storeObjectMapper(ObjectMapper objectMapper) {
         JsonUtil.setMapper(objectMapper);
-    }
 
+    }
 }
