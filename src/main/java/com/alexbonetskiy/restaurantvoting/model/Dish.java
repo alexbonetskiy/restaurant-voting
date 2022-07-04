@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "dish_date", "restaurant_id"}, name = "dish_unique_name_dish_date_restaurant_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = { "restaurant_id", "name", "dish_date"}, name = "dish_unique_name_dish_date_restaurant_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,10 +28,15 @@ public class Dish extends AbstractNamedEntity implements Serializable {
     @Column(name = "price", nullable = false)
     @NotNull
     @Positive
-    protected long price;
+    protected int price;
 
     @Column(name = "dish_date", nullable = false)
     @NotNull
     protected LocalDate date;
 
+    public Dish(Integer id, String name, int price, LocalDate date) {
+        super(id, name);
+        this.price = price;
+        this.date = date;
+    }
 }

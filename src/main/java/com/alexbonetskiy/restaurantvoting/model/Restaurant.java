@@ -21,7 +21,6 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Restaurant extends AbstractNamedEntity implements  Serializable {
 
-
     @Serial
     protected static final long serialVersionUID = 1L;
 
@@ -33,5 +32,8 @@ public class Restaurant extends AbstractNamedEntity implements  Serializable {
     @ToString.Exclude
     protected List<Dish> dishes = new ArrayList<>();
 
-
+    public Restaurant(Integer id, String name, List<Dish> dishes) {
+        super(id, name);
+        this.dishes = dishes;
+    }
 }

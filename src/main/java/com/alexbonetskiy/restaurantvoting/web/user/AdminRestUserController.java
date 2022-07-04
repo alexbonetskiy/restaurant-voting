@@ -20,7 +20,7 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.assureIdCon
 import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(AdminRestUserController.REST_URL)
+@RequestMapping(value = AdminRestUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class AdminRestUserController extends AbstractUserController{
 

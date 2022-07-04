@@ -10,12 +10,19 @@ VALUES ('USER', 1),
 INSERT INTO RESTAURANT (NAME)
 VALUES ('MacDonalds'),
        ('KFC'),
-       ('Burger King');
+       ('Burger King'),
+       ('Taco Bell');
+
 
 INSERT INTO DISH (NAME, DISH_DATE, PRICE, RESTAURANT_ID)
 VALUES ('Big Mac', now(), 3, 1),
+       ('Double cheeseburger', now()-1, 2.4, 1),
        ('Twister', now(), 4, 2),
-       ('Wopper', now(), 5, 3 );
+       ('Chicken wings', now()-1, 2, 2),
+       ('Wopper', now(), 5, 3 ),
+       ('Long Chicken', now() - 1, 2.5, 3),
+       ('Taco', now() - 1, 3, 4);
+
 
 
 

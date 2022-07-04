@@ -23,7 +23,7 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.assureIdCon
 import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = ProfileRestController.REST_URL)
+@RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE )
 @Slf4j
 public class ProfileRestController extends AbstractUserController {
 
