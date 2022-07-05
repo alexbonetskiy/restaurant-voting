@@ -18,15 +18,15 @@ class JsonUtilTest {
 
     @Test
     void readWriteValue() {
-        String json = JsonUtil.writeValue(admin);
+        String json = JsonUtil.writeValue(ADMIN);
         System.out.println(json);
         User user = JsonUtil.readValue(json, User.class);
-        USER_MATCHER.assertMatch(user, admin);
+        USER_MATCHER.assertMatch(user, ADMIN);
     }
 
     @Test
     void readWriteValues() {
-        List<User> users = List.of(user, admin);
+        List<User> users = List.of(USER, ADMIN);
         String json = JsonUtil.writeValue(users);
         System.out.println(json);
         List<User> actual = JsonUtil.readValues(json, User.class);
@@ -35,10 +35,10 @@ class JsonUtilTest {
 
     @Test
     void writeOnlyAccess() {
-        String json = JsonUtil.writeValue(user);
+        String json = JsonUtil.writeValue(USER);
         System.out.println(json);
         assertThat(json, not(containsString("password")));
-        String jsonWithPass = jsonWithPassword(user, "newPass");
+        String jsonWithPass = jsonWithPassword(USER, "newPass");
         System.out.println(jsonWithPass);
         User user = JsonUtil.readValue(jsonWithPass, User.class);
         assertEquals(user.getPassword(), "newPass");

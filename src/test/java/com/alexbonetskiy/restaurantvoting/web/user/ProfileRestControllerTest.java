@@ -30,7 +30,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(USER_MATCHER.contentJson(user));
+                .andExpect(USER_MATCHER.contentJson(USER));
     }
 
     @Test
@@ -44,7 +44,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL))
                 .andExpect(status().isNoContent());
-        USER_MATCHER.assertMatch(userRepository.findAll(), admin);
+        USER_MATCHER.assertMatch(userRepository.findAll(), ADMIN);
     }
 
     @Test
@@ -73,7 +73,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getReferenceById(USER_ID), UserUtil.updateFromTo(new User(user), updatedTo));
+        USER_MATCHER.assertMatch(userRepository.getReferenceById(USER_ID), UserUtil.updateFromTo(new User(USER), updatedTo));
     }
 
     @Test

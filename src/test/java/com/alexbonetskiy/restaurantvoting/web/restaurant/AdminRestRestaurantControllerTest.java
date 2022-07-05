@@ -31,27 +31,28 @@ class AdminRestRestaurantControllerTest  extends AbstractRestControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getWithDishesForToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + macDonalds.id() + "/with-dishes")
+        perform(MockMvcRequestBuilders.get(REST_URL + MAC_DONALDS.id() + "/with-dishes")
                 .param("date", LocalDate.now().toString()))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_WITH_DISHES_MATCHER.contentJson(macDonalds));
+                .andExpect(RESTAURANT_WITH_DISHES_MATCHER.contentJson(MAC_DONALDS));
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + macDonalds.id()))
+        perform(MockMvcRequestBuilders.delete(REST_URL + MAC_DONALDS.id()))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-        Assertions.assertNull(repository.findById(macDonalds.id()).orElse(null));
+
+        Assertions.assertNull(repository.findById(MAC_DONALDS.id()).orElse(null));
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void deleteForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + macDonalds.id()))
+        perform(MockMvcRequestBuilders.delete(REST_URL + MAC_DONALDS.id()))
                 .andExpect(status().isForbidden());
     }
 
@@ -61,10 +62,12 @@ class AdminRestRestaurantControllerTest  extends AbstractRestControllerTest {
         Restaurant newRestaurant = RestaurantTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)));
+                .content(JsonUtil.writeValue(newRestaurant)))
+                .andExpect(status().isCreated());
         Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
         int newId = created.id();
         newRestaurant.setId(newId);
+
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
         RESTAURANT_MATCHER.assertMatch(repository.findById(newId).orElse(null), newRestaurant);
     }
@@ -73,10 +76,11 @@ class AdminRestRestaurantControllerTest  extends AbstractRestControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + "{id}", updated.id())
+        perform(MockMvcRequestBuilders.put(REST_URL + updated.id())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
+
         RESTAURANT_MATCHER.assertMatch(repository.findById(updated.id()).orElse(null), updated);
     }
 }

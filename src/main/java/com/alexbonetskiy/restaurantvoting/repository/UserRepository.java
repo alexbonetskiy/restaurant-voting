@@ -10,12 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Integer> {
-
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
-    int delete(int id);
+public interface UserRepository extends JpaRepository<User, Integer>, BaseRepository<User> {
 
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     Optional<User> findByEmailIgnoreCase(String email);

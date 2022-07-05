@@ -6,10 +6,7 @@ import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import com.alexbonetskiy.restaurantvoting.util.UserUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
-import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkModification;
 
 
 @Slf4j
@@ -27,7 +24,7 @@ public abstract class AbstractUserController {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        checkModification(repository.delete(id), id);
+        repository.deleteExisted(id);
     }
 
     protected User prepareAndSave(User user) {

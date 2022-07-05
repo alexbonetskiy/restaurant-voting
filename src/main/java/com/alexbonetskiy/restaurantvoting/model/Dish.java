@@ -25,6 +25,10 @@ public class Dish extends AbstractNamedEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @Column(name = "restaurant_id", nullable = false)
+    private Integer restaurantId;
+
     @Column(name = "price", nullable = false)
     @NotNull
     @Positive
@@ -34,8 +38,9 @@ public class Dish extends AbstractNamedEntity implements Serializable {
     @NotNull
     protected LocalDate date;
 
-    public Dish(Integer id, String name, int price, LocalDate date) {
+    public Dish(Integer id, String name, Integer restaurantId, int price, LocalDate date) {
         super(id, name);
+        this.restaurantId = restaurantId;
         this.price = price;
         this.date = date;
     }

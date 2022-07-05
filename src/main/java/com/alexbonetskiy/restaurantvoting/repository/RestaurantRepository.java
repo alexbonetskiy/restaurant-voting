@@ -13,12 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface RestaurantRepository extends JpaRepository<Restaurant, Integer > {
-
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Restaurant r WHERE r.id=:id")
-    int delete(int id);
+public interface RestaurantRepository extends JpaRepository<Restaurant, Integer >, BaseRepository<Restaurant> {
 
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes d WHERE d.date=:date ORDER BY r.name, d.name")
     List<Restaurant> getAllWithDishesByDate(LocalDate date);
