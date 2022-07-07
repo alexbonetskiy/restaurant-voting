@@ -23,4 +23,6 @@ public class RestaurantTestData {
     public static Restaurant getUpdated() {
         return new Restaurant(1, "updated ", MAC_DONALDS.getDishes());
     }
+
+    public static Restaurant getNull() {return new Restaurant(null, null, null);}
 }

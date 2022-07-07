@@ -1,6 +1,7 @@
 package com.alexbonetskiy.restaurantvoting.model;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,13 +10,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "vote_unique_user_datetime_idx")})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "vote_unique_user_vote_date_idx")})
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @ToString(callSuper = true)
 public class Vote extends AbstractBaseEntity implements  Serializable {
 
@@ -23,26 +24,27 @@ public class Vote extends AbstractBaseEntity implements  Serializable {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @NotNull
-    @ToString.Exclude
-    private User user;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     @ToString.Exclude
-    private Restaurant restaurant;
+    protected User user;
 
 
-
-    @Column(name = "date_time", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private LocalDateTime dateTime;
+    @ToString.Exclude
+    protected Restaurant restaurant;
 
 
+    @Column(name = "vote_date", nullable = false)
+    @NotNull
+    protected LocalDate date;
 
-
+    public Vote(Integer id, LocalDate date) {
+        super(id);
+        this.date = date;
+    }
 }

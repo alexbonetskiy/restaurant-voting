@@ -36,14 +36,14 @@ public class User extends AbstractNamedEntity implements HasId, Serializable {
     @Email
     @NotBlank
     @Size(max = 128)
-    private String email;
+    protected String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(max = 256)
     // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    protected String password;
 
 
     @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class User extends AbstractNamedEntity implements HasId, Serializable {
     @JoinColumn(name = "user_id") //https://stackoverflow.com/a/62848296/548473
     @OnDelete(action = OnDeleteAction.CASCADE)
     @BatchSize(size = 200)
-    private Set<Role> roles;
+    protected Set<Role> roles;
 
 
 

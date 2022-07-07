@@ -54,7 +54,7 @@ public class AdminRestDishController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish) {
-        log.info("creating new dish {}", dish);
+        log.info("creating {}", dish);
         checkNew(dish);
         Dish created = repository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

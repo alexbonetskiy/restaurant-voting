@@ -1,9 +1,6 @@
 package com.alexbonetskiy.restaurantvoting.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +17,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class Dish extends AbstractNamedEntity implements Serializable {
 
     @Serial
@@ -27,7 +25,7 @@ public class Dish extends AbstractNamedEntity implements Serializable {
 
     @NotNull
     @Column(name = "restaurant_id", nullable = false)
-    private Integer restaurantId;
+    protected Integer restaurantId;
 
     @Column(name = "price", nullable = false)
     @NotNull

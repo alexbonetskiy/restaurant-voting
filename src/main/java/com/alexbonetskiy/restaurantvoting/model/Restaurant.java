@@ -2,6 +2,7 @@ package com.alexbonetskiy.restaurantvoting.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,6 +20,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
+@AllArgsConstructor
 public class Restaurant extends AbstractNamedEntity implements  Serializable {
 
     @Serial
@@ -28,9 +30,10 @@ public class Restaurant extends AbstractNamedEntity implements  Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @OrderBy("date DESC")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @ToString.Exclude
-    protected List<Dish> dishes = new ArrayList<>();
+    protected List<Dish> dishes;
 
     public Restaurant(Integer id, String name, List<Dish> dishes) {
         super(id, name);
