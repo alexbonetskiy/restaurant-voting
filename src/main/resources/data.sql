@@ -10,6 +10,7 @@ VALUES ('USER', 1),
        ('USER', 3);
 
 
+
 INSERT INTO RESTAURANT (NAME)
 VALUES ('MacDonalds'),
        ('KFC'),

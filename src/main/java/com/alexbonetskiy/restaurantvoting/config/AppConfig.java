@@ -8,9 +8,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,10 +24,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @Slf4j
 @EnableWebMvc
+@EnableCaching
 public class AppConfig implements WebMvcConfigurer {
 
 
@@ -65,6 +70,26 @@ public class AppConfig implements WebMvcConfigurer {
     @Autowired
     public void storeObjectMapper(ObjectMapper objectMapper) {
         JsonUtil.setMapper(objectMapper);
+    }
+
+    //https://stackoverflow.com/a/54571018
+
+    @Bean
+    public CaffeineCache cacheRestaurants() {
+        return new CaffeineCache("restaurants",
+                Caffeine.newBuilder()
+                        .expireAfterAccess(600, TimeUnit.SECONDS)
+                        .maximumSize(100)
+                        .build());
+    }
+
+    @Bean
+    public CaffeineCache cacheUsers() {
+        return new CaffeineCache("users",
+                Caffeine.newBuilder()
+                        .expireAfterAccess(600, TimeUnit.SECONDS)
+                        .maximumSize(1000)
+                        .build());
 
     }
 }

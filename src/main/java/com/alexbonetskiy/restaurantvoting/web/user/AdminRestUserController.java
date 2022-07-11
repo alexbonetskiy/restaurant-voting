@@ -5,6 +5,8 @@ import com.alexbonetskiy.restaurantvoting.model.User;
 import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +42,7 @@ public class AdminRestUserController extends AbstractUserController{
      @Override
      @DeleteMapping("/{id}")
      @ResponseStatus(HttpStatus.NO_CONTENT)
+     @CacheEvict(value = "users", allEntries = true)
      public void delete(@PathVariable int id) {
           super.delete(id);
      }
@@ -64,10 +67,11 @@ public class AdminRestUserController extends AbstractUserController{
 
      @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
      @ResponseStatus(HttpStatus.NO_CONTENT)
-     public void update(@Valid @RequestBody User user, @PathVariable int id) {
+     @CachePut(value = "users")
+     public User update(@Valid @RequestBody User user, @PathVariable int id) {
           log.info("update {} with id={}", user, id);
           assureIdConsistent(user, id);
-          prepareAndSave(user);
+          return prepareAndSave(user);
      }
 
      @GetMapping("/by-email")

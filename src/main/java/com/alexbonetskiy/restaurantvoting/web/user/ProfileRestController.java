@@ -8,6 +8,9 @@ import com.alexbonetskiy.restaurantvoting.util.UserUtil;
 import com.alexbonetskiy.restaurantvoting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,12 +44,14 @@ public class ProfileRestController extends AbstractUserController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = "users", key = "#authUser.username")
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @Cacheable(value = "users", key = "#userTo.email")
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
@@ -59,6 +64,7 @@ public class ProfileRestController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CachePut(value = "users", key = "#userTo.email")
     public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
         assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
