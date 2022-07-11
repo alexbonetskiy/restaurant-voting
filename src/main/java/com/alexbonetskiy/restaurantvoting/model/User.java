@@ -2,6 +2,7 @@ package com.alexbonetskiy.restaurantvoting.model;
 
 
 import com.alexbonetskiy.restaurantvoting.HasId;
+import com.alexbonetskiy.restaurantvoting.HasIdAndEmail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,7 +28,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends AbstractNamedEntity implements HasId, Serializable {
+public class User extends AbstractNamedEntity implements HasIdAndEmail, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

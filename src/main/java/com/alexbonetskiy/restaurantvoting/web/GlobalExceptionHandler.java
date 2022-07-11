@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,16 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @AllArgsConstructor
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
+    public static final String EXCEPTION_DUPLICATE_DISH = "Dish with this name in this restaurant already exists today";
+
     private final ErrorAttributes errorAttributes;
+
+    private static final Map<String, String> CONSTRAINS_MAP = Map.of(
+            "dish_unique_name_dish_date_restaurant_idx", EXCEPTION_DUPLICATE_DISH);
+
+
+
 
     @ExceptionHandler(AppException.class)
     public ResponseEntity<?> appException(WebRequest request, AppException ex) {
@@ -84,4 +94,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("error", status.getReasonPhrase());
         return (ResponseEntity<T>) ResponseEntity.status(status).body(body);
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> conflict(WebRequest request, DataIntegrityViolationException ex) {
+        log.error("DataIntegrityViolationException: {}", ex.getMessage());
+        String rootMsg = ValidationUtil.getRootCause(ex).getMessage();
+        if (rootMsg != null) {
+            String lowerCaseMsg = rootMsg.toLowerCase();
+            for (Map.Entry<String, String> entry : CONSTRAINS_MAP.entrySet()) {
+                if (lowerCaseMsg.contains(entry.getKey())) {
+                    return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), entry.getValue(), HttpStatus.UNPROCESSABLE_ENTITY);
+                }
+            }
+        }
+        return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.CONFLICT);
+    }
+
+
 }

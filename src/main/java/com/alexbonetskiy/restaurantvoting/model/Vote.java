@@ -1,6 +1,7 @@
 package com.alexbonetskiy.restaurantvoting.model;
 
 
+import com.alexbonetskiy.restaurantvoting.View;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -26,7 +27,7 @@ public class Vote extends AbstractBaseEntity implements  Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @NotNull(groups = View.Persist.class)
     @ToString.Exclude
     protected User user;
 
@@ -34,7 +35,7 @@ public class Vote extends AbstractBaseEntity implements  Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @NotNull(groups = View.Persist.class)
     @ToString.Exclude
     protected Restaurant restaurant;
 

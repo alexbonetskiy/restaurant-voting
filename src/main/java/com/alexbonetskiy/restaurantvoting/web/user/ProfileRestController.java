@@ -3,11 +3,9 @@ package com.alexbonetskiy.restaurantvoting.web.user;
 
 import com.alexbonetskiy.restaurantvoting.dto.UserTo;
 import com.alexbonetskiy.restaurantvoting.model.User;
-import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import com.alexbonetskiy.restaurantvoting.util.UserUtil;
 import com.alexbonetskiy.restaurantvoting.web.AuthUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,11 +29,6 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 public class ProfileRestController extends AbstractUserController {
 
     public static final String REST_URL = "/api/profile";
-
-    @Autowired
-    public ProfileRestController(UserRepository repository) {
-        super(repository);
-    }
 
     @GetMapping
     public User get(@AuthenticationPrincipal AuthUser authUser) {

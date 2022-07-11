@@ -4,14 +4,18 @@ import com.alexbonetskiy.restaurantvoting.model.Role;
 import com.alexbonetskiy.restaurantvoting.model.User;
 import com.alexbonetskiy.restaurantvoting.repository.UserRepository;
 import com.alexbonetskiy.restaurantvoting.web.AbstractRestControllerTest;
+import com.alexbonetskiy.restaurantvoting.web.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.alexbonetskiy.restaurantvoting.web.user.UserTestData.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -145,6 +149,32 @@ class AdminRestUserControllerTest extends AbstractRestControllerTest {
                 .content(jsonWithPassword(invalid, "password")))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    @WithUserDetails(value = ADMIN_MAIL)
+    void updateDuplicate() throws Exception {
+        User updated = new User(USER);
+        updated.setEmail(ADMIN_MAIL);
+        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonWithPassword(updated, "password")))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_DUPLICATE_EMAIL)));
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    @WithUserDetails(value = ADMIN_MAIL)
+    void createDuplicate() throws Exception {
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonWithPassword(USER, "user")))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_DUPLICATE_EMAIL)));
     }
 
 }

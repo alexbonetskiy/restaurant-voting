@@ -28,10 +28,6 @@ public class AdminRestUserController extends AbstractUserController{
 
      public static final String REST_URL = "/api/admin/users";
 
-     @Autowired
-     public AdminRestUserController(UserRepository repository) {
-          super(repository);
-     }
 
      @Override
      @GetMapping("/{id}")

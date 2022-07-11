@@ -8,6 +8,12 @@ spring:
     hibernate:
       ddl-auto: create
     properties:
+      javax:
+        persistence:
+          validation:
+            group:
+              pre-update: com.alexbonetskiy.restaurantvoting.View$Persist
+              pre-persist: com.alexbonetskiy.restaurantvoting.View$Persist
       #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:
         format_sql: true
