@@ -5,6 +5,7 @@ import com.alexbonetskiy.restaurantvoting.dto.UserTo;
 import com.alexbonetskiy.restaurantvoting.model.User;
 import com.alexbonetskiy.restaurantvoting.util.UserUtil;
 import com.alexbonetskiy.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -26,6 +27,7 @@ import static com.alexbonetskiy.restaurantvoting.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE )
 @Slf4j
+@Tag(name = "UserController")
 public class ProfileRestController extends AbstractUserController {
 
     public static final String REST_URL = "/api/profile";

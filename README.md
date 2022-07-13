@@ -12,3 +12,17 @@ If it is before 11:00 we assume that he changed his mind.
 If it is after 11:00 then it is too late, vote can't be changed
 Each restaurant provides a new menu each day.
 
+----------
+
+Run: type `mvn spring-boot:run` in root directory.
+
+-----------------------
+[REST API documentation](http://localhost:8080/swagger-ui.html)
+
+**Credentials:**
+
+Admin: admin@gmail.com / admin
+
+User:  user@gmail.com / user
+
+Guest:  guest@gmail.com / guest
