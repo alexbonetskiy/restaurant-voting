@@ -1,3 +1,5 @@
+RESTAURANT VOTING APPLICATION
+
 The task is:
 
 Build a voting system for deciding where to have lunch.
@@ -13,6 +15,18 @@ If it is after 11:00 then it is too late, vote can't be changed
 Each restaurant provides a new menu each day.
 
 ----------
+Technology stack:
+- Spring Boot
+- Spring Data JPA
+- Spring Security
+- H2 Database
+- Lombok
+- Jackson
+- Caffeine cache
+- Junit
+- Swagger/ OpenAPI 3.0
+
+-----------------------
 
 Run: type `mvn spring-boot:run` in root directory.
 
