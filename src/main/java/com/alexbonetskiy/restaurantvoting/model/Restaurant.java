@@ -24,7 +24,7 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity implements  Serializable {
 
     @Serial
-    protected static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -33,10 +33,22 @@ public class Restaurant extends AbstractNamedEntity implements  Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
     @ToString.Exclude
-    protected List<Dish> dishes;
+    protected List<Dish> dishes = new ArrayList<>();
 
     public Restaurant(Integer id, String name, List<Dish> dishes) {
         super(id, name);
         this.dishes = dishes;
     }
+
+    public void addDish(Dish dish) {
+        dishes.add(dish);
+        dish.setRestaurantId(this.id);
+    }
+
+    public void removeDish(Dish dish) {
+        if (dish != null)
+        dish.setRestaurantId(null);
+        dishes.remove(dish);
+    }
+
 }

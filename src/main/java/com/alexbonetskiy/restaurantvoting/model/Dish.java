@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
+@ToString(callSuper = true)
 public class Dish extends AbstractNamedEntity implements Serializable {
 
     @Serial
